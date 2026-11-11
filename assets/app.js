@@ -225,7 +225,7 @@
         (P ? '<section class="secao"><div class="secao-cabeca"><h2>Processos ambientais no TJRO</h2><a href="#/processos">Consultar todos os ' + milhar(P.civeis) + ' processos</a></div>' +
           '<div class="destaques">' +
             '<div><b>' + milhar(P.civeis) + '</b><span>processos cíveis com assunto ambiental no 2º grau</span></div>' +
-            '<div><b>' + milhar(P.julgados || 0) + '</b><span>com julgamento registrado no DataJud</span></div>' +
+            (P.julgados != null ? '<div><b>' + milhar(P.julgados) + '</b><span>com julgamento registrado no DataJud</span></div>' : '<div><b>' + milhar(P.total) + '</b><span>processos ambientais no 2º grau, incluindo criminais</span></div>') +
             '<div><b>' + milhar(P.porComarca.filter(function (c) { return !/não identificada|originária|protocolado/i.test(c.rot); }).length) + '</b><span>comarcas de origem</span></div>' +
           '</div>' +
           '<h3 style="margin:22px 0 4px">Movimentações mais recentes</h3>' + htmlTramitacao(6) +
