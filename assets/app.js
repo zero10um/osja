@@ -870,8 +870,7 @@
         '<li>Ligar as decisões aos territórios e aos grupos atingidos.</li></ul>' +
 
       '<h2 id="equipe">Equipe</h2><div class="equipe">' +
-        '<div class="pessoa"><strong>Aparecida Maria da Silva Fernandes</strong><span>Pesquisadora, doutorado em Direitos Humanos e Desenvolvimento da Justiça</span></div>' +
-        '<div class="pessoa"><strong>Profa. Dra. Aparecida Luzia Alzira Zuin</strong><span>Orientadora</span></div>' +
+        '<div class="pessoa"><strong>Sâmia Souza Santos</strong></div>' +
       '</div>' +
 
       '<h2 id="metodologia">Metodologia</h2>' +

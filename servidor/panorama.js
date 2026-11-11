@@ -6,7 +6,7 @@ const CAMPOS = ['numeroProcesso', 'classe.nome', 'assuntos.nome', 'orgaoJulgador
 
 // movimentos que registram o resultado de um julgamento (recursos de embargos ficam de fora)
 const RESULTADO = /provimento|procedência|improcedência|conhecimento|homologação|extinção|prejudicad|desistência/i;
-const NAO_RESULTADO = /embargos|para julgamento|diligência/i;
+const NAO_RESULTADO = /embargos|para julgamento|diligência|prevenção/i;
 
 async function todosAmbientais() {
   const lista = [];
