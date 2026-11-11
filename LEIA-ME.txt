@@ -1,0 +1,32 @@
+OJSA | Observatório da Justiça Socioambiental na Amazônia
+
+No ar
+  Código:  https://github.com/zero10um/osja
+  Site:    publicado pela Vercel a partir do GitHub. Cada envio de código atualiza o site sozinho.
+  Dados do DataJud: atualizados todo dia às 06h (horário de Brasília) pela tarefa
+  .github/workflows/atualizar-datajud.yml. Para rodar na hora: GitHub > Actions >
+  "Atualizar dados do DataJud" > Run workflow.
+
+API de dados abertos (JSON)
+  /api/v1                     descrição e lista de endereços
+  /api/v1/fichas              decisões do acervo (filtros: eixo, municipio, orgao, resultado, q)
+  /api/v1/fichas/{id}         ficha completa
+  /api/v1/eixos               eixos temáticos
+  /api/v1/radar               tendências, divergências e precedentes
+  /api/v1/panorama            processos ambientais do 2º grau do TJRO (DataJud)
+  /api/v1/processos/{numero}  andamento ao vivo no DataJud (CNJ)
+
+Rodar no computador
+  Dê dois cliques em iniciar-observatorio.bat (precisa do Node.js). Abre em http://localhost:5173.
+  Sem servidor, o index.html também abre direto, mas sem a API.
+
+Atualizar a cópia do DataJud no computador
+  node servidor/atualizar-dados.js
+  O DataJud às vezes recusa consultas por excesso de acesso; o script tenta de novo sozinho.
+
+Onde ficam as coisas
+  assets/dados.js     fichas dos acórdãos, tendências, divergências, precedentes e biblioteca
+  assets/mapa-ro.js   malha municipal de Rondônia (IBGE)
+  assets/datajud.js   cópia dos dados do DataJud
+  servidor/           API, consultas ao DataJud e servidor local
+  api/index.js        entrada da API na Vercel

@@ -1,0 +1,11 @@
+{
+  "name": "ojsa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Observatório da Justiça Socioambiental na Amazônia",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node servidor/servidor.js",
+    "atualizar": "node servidor/atualizar-dados.js"
+  }
+}

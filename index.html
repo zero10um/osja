@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OJSA | Observatório da Justiça Socioambiental na Amazônia</title>
+  <meta name="description" content="Acórdãos do TJRO sobre conflitos socioambientais, com fichas analíticas, radar jurisprudencial e indicadores.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/estilo.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <div class="caixa">
+    <header class="topo">
+      <a class="marca" href="#/" aria-label="OJSA, página inicial">
+        <svg class="marca-simbolo" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="#1E4A3B" stroke-width="1.5"/>
+          <path d="M8 19c5 0 6 4 11 4s6-4 11-4 6 4 11 4" fill="none" stroke="#1E4A3B" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 26c5 0 6 4 11 4s6-4 11-4 6 4 11 4" fill="none" stroke="#5E9C7A" stroke-width="2" stroke-linecap="round"/>
+          <path d="M11 33c4 0 5 3 9 3s5-3 9-3 5 3 8 3" fill="none" stroke="#A9CDB8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="marca-sigla">OJSA</span>
+        <span class="marca-nome">Observatório da<br>Justiça Socioambiental<br>na Amazônia</span>
+      </a>
+
+      <button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="menu" class="menu" aria-label="Principal">
+        <ul class="menu-lista">
+          <li data-rota="inicio"><a href="#/">Início</a></li>
+          <li data-rota="decisoes" class="tem-sub">
+            <a href="#/decisoes">Decisões judiciais</a>
+            <ul class="sub">
+              <li><a href="#/decisoes">Consultar o acervo</a></li>
+              <li><a href="#/radar/tramitacao">Processos em tramitação</a></li>
+              <li><a href="#/sobre/metodologia">Como a ficha é feita</a></li>
+            </ul>
+          </li>
+          <li data-rota="radar" class="tem-sub">
+            <a href="#/radar">Radar Jurisprudencial</a>
+            <ul class="sub">
+              <li><a href="#/radar/novas">Novas decisões</a></li>
+              <li><a href="#/radar/tendencias">Tendências em análise</a></li>
+              <li><a href="#/radar/divergencias">Entendimentos e divergências</a></li>
+              <li><a href="#/radar/precedentes">Precedentes relevantes</a></li>
+              <li><a href="#/radar/tramitacao">Processos em tramitação</a></li>
+              <li><a href="#/radar/boletim">Boletim de novembro</a></li>
+            </ul>
+          </li>
+          <li data-rota="indicadores" class="tem-sub">
+            <a href="#/indicadores">Indicadores</a>
+            <ul class="sub">
+              <li><a href="#/indicadores/panorama">Panorama do TJRO</a></li>
+              <li><a href="#/indicadores/acervo">Acervo analisado</a></li>
+              <li><a href="#/indicadores/criterios">Critérios</a></li>
+            </ul>
+          </li>
+          <li data-rota="temas" class="tem-sub">
+            <a href="#/temas">Temas e Territórios</a>
+            <ul class="sub" id="sub-temas"></ul>
+          </li>
+          <li data-rota="biblioteca" class="tem-sub">
+            <a href="#/biblioteca">Biblioteca e Fontes</a>
+            <ul class="sub">
+              <li><a href="#/biblioteca/legislacao">Legislação</a></li>
+              <li><a href="#/biblioteca/bases">Bases públicas</a></li>
+              <li><a href="#/biblioteca/leituras">Leituras de referência</a></li>
+              <li><a href="#/dados">Dados abertos (API)</a></li>
+            </ul>
+          </li>
+          <li data-rota="sobre" class="tem-sub">
+            <a href="#/sobre">Sobre</a>
+            <ul class="sub">
+              <li><a href="#/sobre/apresentacao">Apresentação</a></li>
+              <li><a href="#/sobre/objetivos">Objetivos</a></li>
+              <li><a href="#/sobre/equipe">Equipe</a></li>
+              <li><a href="#/sobre/metodologia">Metodologia</a></li>
+              <li><a href="#/sobre/privacidade">Privacidade</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="conteudo" tabindex="-1"></main>
+
+    <footer class="rodape">
+      <p class="rodape-nome">OJSA, Observatório da Justiça Socioambiental na Amazônia</p>
+      <p>Produto técnico-tecnológico de pesquisa de doutorado no PPG em Direitos Humanos e Desenvolvimento da Justiça (DHJUS), Universidade Federal de Rondônia.</p>
+      <p>As análises são produto de pesquisa acadêmica e não representam posição oficial do Tribunal de Justiça de Rondônia.</p>
+      <p class="rodape-links"><a href="#/sobre/metodologia">Metodologia</a><a href="#/sobre/privacidade">Privacidade</a><a href="#/biblioteca/bases">Fontes de dados</a><a href="#/dados">Dados abertos (API)</a><a href="#/equipe/nova-ficha">Área da equipe</a></p>
+    </footer>
+  </div>
+
+  <script src="assets/dados.js"></script>
+  <script src="assets/mapa-ro.js"></script>
+  <script src="assets/datajud.js" onerror="window.DATAJUD = null"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

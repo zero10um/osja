@@ -1,0 +1,30 @@
+# Atualiza todo dia a cópia dos dados do DataJud (assets/datajud.js).
+# Quando o arquivo muda, o commit faz a Vercel publicar a versão nova do site sozinha.
+name: Atualizar dados do DataJud
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # 06h no horário de Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Consultar o DataJud
+        run: node servidor/atualizar-dados.js
+      - name: Salvar se houve mudança
+        run: |
+          git config user.name "ojsa-atualizacao"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/datajud.js
+          git diff --cached --quiet || git commit -m "Atualiza dados do DataJud"
+          git push
