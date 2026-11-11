@@ -3,7 +3,7 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "includeFiles": "{assets/dados.js,assets/datajud.js}"
+      "includeFiles": "{assets/dados.js,assets/datajud.js,assets/processos.json}"
     }
   },
   "rewrites": [

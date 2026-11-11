@@ -21,6 +21,14 @@ function carregar(arquivo, variavel) {
   return memoria[arquivo].valor;
 }
 
+function lerProcessos() {
+  const caminho = path.join(RAIZ, 'assets', 'processos.json');
+  if (!fs.existsSync(caminho)) return null;
+  const quando = fs.statSync(caminho).mtimeMs;
+  if (!memoria.processos || memoria.processos.quando !== quando) memoria.processos = { quando, valor: JSON.parse(fs.readFileSync(caminho, 'utf8')) };
+  return memoria.processos.valor;
+}
+
 function normal(s) {
   return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 }
@@ -78,7 +86,9 @@ async function tratar(req, res) {
           eixos: url + '/api/v1/eixos',
           radar: url + '/api/v1/radar',
           panorama: url + '/api/v1/panorama',
-          processo: url + '/api/v1/processos/{numero CNJ}'
+          processos: url + '/api/v1/processos?esfera=civel&classe=&assunto=&comarca=&ano=&situacao=&resultado=&q=&pagina=1&por=50',
+          processo: url + '/api/v1/processos/{numero CNJ}',
+          publicacoes: url + '/api/v1/publicacoes/{numero CNJ}'
         }
       }, CACHE_DADOS);
     }
@@ -130,6 +140,47 @@ async function tratar(req, res) {
         if (copia) return responder(res, 200, { numero, fonte: 'Cópia salva do DataJud (CNJ)', consultadoEm: DJ.panorama && DJ.panorama.extraidoEm, registros: DJ.processos[copia] }, 'public, max-age=60');
         return responder(res, 502, { erro: 'O DataJud não respondeu: ' + e.message });
       }
+    }
+
+    if (recurso === 'processos') {
+      const P = lerProcessos();
+      if (!P) return responder(res, 503, { erro: 'Lista de processos ainda não gerada.' });
+      let lista = P.processos;
+      const esfera = q.get('esfera') || 'civel';
+      if (esfera === 'civel') lista = lista.filter(p => !p.cr);
+      if (esfera === 'criminal') lista = lista.filter(p => p.cr);
+      if (q.get('classe')) lista = lista.filter(p => normal(p.c) === normal(q.get('classe')));
+      if (q.get('assunto')) lista = lista.filter(p => p.a.some(a => normal(a) === normal(q.get('assunto'))));
+      if (q.get('comarca')) lista = lista.filter(p => normal(p.co) === normal(q.get('comarca')));
+      if (q.get('ano')) lista = lista.filter(p => p.aj && p.aj.startsWith(q.get('ano')));
+      if (q.get('situacao') === 'julgado') lista = lista.filter(p => p.j);
+      if (q.get('situacao') === 'sem-julgamento') lista = lista.filter(p => !p.j);
+      if (q.get('resultado')) lista = lista.filter(p => p.j && normal(p.j[1]) === normal(q.get('resultado')));
+      if (q.get('q')) {
+        const termo = normal(q.get('q'));
+        const digitos = q.get('q').replace(/\D/g, '');
+        lista = lista.filter(p => (digitos.length >= 7 && p.n.replace(/\D/g, '').includes(digitos)) || normal([p.c, p.o, p.co, p.a.join(' ')].join(' ')).includes(termo));
+      }
+      const por = Math.min(100, Math.max(1, Number(q.get('por')) || 50));
+      const pagina = Math.max(1, Number(q.get('pagina')) || 1);
+      return responder(res, 200, {
+        fonte: P.fonte, extraidoEm: P.extraidoEm, total: lista.length, pagina, por,
+        legenda: { n: 'número CNJ', c: 'classe', o: 'gabinete no 2º grau', a: 'assuntos', co: 'comarca de origem', aj: 'chegada ao 2º grau', at: 'última atualização', u: 'última movimentação [data, nome]', j: 'último julgamento registrado [data, resultado]', cr: '1 se criminal' },
+        processos: lista.slice((pagina - 1) * por, pagina * por)
+      }, CACHE_DADOS);
+    }
+
+    if (recurso === 'publicacoes' && partes[3]) {
+      const digitos = decodeURIComponent(partes[3]).replace(/\D/g, '');
+      if (digitos.length !== 20) return responder(res, 400, { erro: 'Informe o número CNJ completo, com 20 dígitos.' });
+      const r = await fetch('https://comunicaapi.pje.jus.br/api/v1/comunicacao?siglaTribunal=TJRO&numeroProcesso=' + digitos, { headers: { 'User-Agent': 'OJSA/1.0 (observatorio academico)' } });
+      if (!r.ok) return responder(res, 502, { erro: 'O Diário de Justiça Eletrônico Nacional não respondeu (' + r.status + ').' });
+      const j = await r.json();
+      const itens = (j.items || []).map(i => ({
+        data: i.data_disponibilizacao, tipo: i.tipoComunicacao, documento: i.tipoDocumento, orgao: i.nomeOrgao,
+        classe: i.nomeClasse, link: i.link || null, texto: (i.texto || '').replace(/ /g, ' ').replace(/\s+/g, ' ').trim()
+      })).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+      return responder(res, 200, { numero: dj.formatarNumero(digitos), fonte: 'Diário de Justiça Eletrônico Nacional (CNJ), via Comunica PJe', consultadoEm: new Date().toISOString(), total: itens.length, publicacoes: itens }, 'public, max-age=1800, s-maxage=21600, stale-while-revalidate=86400');
     }
 
     return responder(res, 404, { erro: 'Endereço desconhecido. Veja ' + url + '/api/' + VERSAO });

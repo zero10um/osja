@@ -391,13 +391,65 @@ a.selo-eixo:hover { color: var(--mata); text-decoration: none; background: var(-
   .tabela td.forte { white-space: normal; }
 }
 
+/* Transição entre páginas e carregamento: rio correndo */
+#conteudo.entrando { animation: entrar .28s ease-out; }
+@keyframes entrar { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.onda { fill: none; stroke-linecap: round; stroke-width: 4; stroke-dasharray: 26 14; animation: correr 1.4s linear infinite; }
+.onda-1 { stroke: var(--mata); }
+.onda-2 { stroke: var(--folha); animation-duration: 1.1s; }
+.onda-3 { stroke: var(--broto); animation-duration: 1.7s; }
+@keyframes correr { to { stroke-dashoffset: -80; } }
+
+.carregador { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 12px; background: #fff; padding: 10px 20px 10px 14px; border-radius: 40px; box-shadow: 0 4px 18px rgba(0, 0, 0, .12); font-size: 14px; color: var(--mata); }
+.carregador[hidden] { display: none; }
+.carregador svg { width: 54px; height: 27px; }
+.carregando-bloco { display: flex; align-items: center; gap: 12px; padding: 18px 0; color: var(--cinza); font-size: 14px; }
+.carregando-bloco svg { width: 48px; height: 24px; flex: none; }
+
+/* Consulta de processos */
+.resumo-filtro { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; margin-bottom: 10px; font-size: 14px; color: var(--cinza); }
+.resumo-filtro b { font-size: 22px; font-weight: 300; color: var(--mata); }
+.resultados-mini { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 14px; }
+.resultados-mini button { font: inherit; font-size: 12px; border: 1px solid var(--linha); background: #fff; color: var(--texto); padding: 3px 10px; border-radius: 2px; cursor: pointer; }
+.resultados-mini button:hover, .resultados-mini button[aria-pressed="true"] { border-color: var(--mata); color: var(--mata); background: var(--varzea); }
+.processos { list-style: none; margin: 0; padding: 0; }
+.processo a.processo-link { display: grid; grid-template-columns: minmax(0, 1fr) 13rem; gap: 2px 22px; padding: 14px 4px; border-bottom: 1px solid var(--linha); text-decoration: none; color: inherit; font-size: 14px; line-height: 1.5; }
+.processo a.processo-link:hover { background: #F7F9F8; }
+.processo a.processo-link:hover .processo-num { color: var(--mata); text-decoration: underline; }
+.processo-num { font-weight: 500; color: var(--tinta); font-size: 15px; font-variant-numeric: tabular-nums; }
+.processo-meta { display: block; color: var(--cinza); font-size: 13px; }
+.processo-assuntos { display: block; color: var(--texto); font-size: 13px; }
+.processo-lado { text-align: right; font-size: 13px; }
+.processo-lado time { display: block; color: var(--cinza); }
+.processo-lado .julgado { color: var(--mata); font-weight: 500; }
+.selo-ficha { background: var(--barranco-claro); color: #6E4519; margin-left: 6px; }
+.mais { margin-top: 18px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+.publicacao { border-top: 1px solid var(--linha); padding: 12px 0; font-size: 14px; }
+.publicacao-topo { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.publicacao-topo strong { color: var(--tinta); font-weight: 500; }
+.publicacao details { margin-top: 6px; }
+.publicacao summary { cursor: pointer; color: var(--igapo); font-size: 13px; }
+.publicacao .texto-oficial { margin-top: 8px; padding: 12px 14px; background: var(--nevoa); font-size: 13px; line-height: 1.6; max-height: 360px; overflow: auto; white-space: pre-line; }
+.andamento-completo li { grid-template-columns: 6rem minmax(0, 1fr); }
+
+@media (max-width: 640px) {
+  .processo a.processo-link { grid-template-columns: minmax(0, 1fr); }
+  .processo-lado { text-align: left; }
+}
+
 @media (max-width: 400px) {
   .marca-nome { display: none; }
   .marca-sigla { border-right: 0; padding-right: 0; }
   .menu-botao { width: 60px; padding: 0 18px; }
 }
 
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  #conteudo.entrando { animation: none; }
+  .onda { animation-duration: 6s; }
+}
 
 @media print {
   body { background: #fff; }

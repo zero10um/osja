@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OJSA | Observatório da Justiça Socioambiental na Amazônia</title>
   <meta name="description" content="Acórdãos do TJRO sobre conflitos socioambientais, com fichas analíticas, radar jurisprudencial e indicadores.">
+  <link rel="icon" type="image/svg+xml" href="assets/icone.svg">
+  <link rel="apple-touch-icon" href="assets/icone.svg">
+  <meta name="theme-color" content="#1E4A3B">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -36,8 +39,8 @@
           <li data-rota="decisoes" class="tem-sub">
             <a href="#/decisoes">Decisões judiciais</a>
             <ul class="sub">
-              <li><a href="#/decisoes">Consultar o acervo</a></li>
-              <li><a href="#/radar/tramitacao">Processos em tramitação</a></li>
+              <li><a href="#/processos">Processos ambientais no TJRO</a></li>
+              <li><a href="#/decisoes">Fichas analíticas</a></li>
               <li><a href="#/sobre/metodologia">Como a ficha é feita</a></li>
             </ul>
           </li>
@@ -88,6 +91,14 @@
     </header>
 
     <main id="conteudo" tabindex="-1"></main>
+    <div class="carregador" id="carregador" role="status" aria-live="polite" hidden>
+      <svg viewBox="0 0 120 60" aria-hidden="true">
+        <path class="onda onda-1" d="M4 18c12 0 14 8 26 8s14-8 26-8 14 8 26 8 14-8 26-8"/>
+        <path class="onda onda-2" d="M4 32c12 0 14 8 26 8s14-8 26-8 14 8 26 8 14-8 26-8"/>
+        <path class="onda onda-3" d="M4 46c12 0 14 8 26 8s14-8 26-8 14 8 26 8 14-8 26-8"/>
+      </svg>
+      <span id="carregador-texto">Carregando</span>
+    </div>
 
     <footer class="rodape">
       <p class="rodape-nome">OJSA, Observatório da Justiça Socioambiental na Amazônia</p>
