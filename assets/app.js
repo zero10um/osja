@@ -624,7 +624,17 @@
         : '<p class="nota">Este processo não está na lista de processos ambientais do 2º grau; os dados abaixo vêm direto do DataJud.</p>';
     }).catch(function () { var el = document.getElementById('ident-proc'); if (el) el.innerHTML = ''; });
 
-    fetch('/api/v1/publicacoes/' + encodeURIComponent(numero)).then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (j) {
+    // o Diário de Justiça Nacional aceita consulta direta do navegador; a API do Observatório fica de reserva
+    var digitos = numero.replace(/\D/g, '');
+    fetch('https://comunicaapi.pje.jus.br/api/v1/comunicacao?siglaTribunal=TJRO&numeroProcesso=' + digitos)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (j) {
+        return { publicacoes: (j.items || []).map(function (i) {
+          return { data: i.data_disponibilizacao, tipo: i.tipoComunicacao, documento: i.tipoDocumento, orgao: i.nomeOrgao, link: i.link || null, texto: String(i.texto || '').replace(/ /g, ' ').replace(/\s+/g, ' ').trim() };
+        }).sort(function (a, b) { return (b.data || '').localeCompare(a.data || ''); }) };
+      })
+      .catch(function () { return fetch('/api/v1/publicacoes/' + encodeURIComponent(numero)).then(function (r) { return r.ok ? r.json() : Promise.reject(); }); })
+      .then(function (j) {
       var el = document.getElementById('publicacoes');
       if (!el) return;
       el.innerHTML = j.publicacoes.length ? j.publicacoes.map(function (pub) {
