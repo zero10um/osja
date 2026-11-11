@@ -391,6 +391,12 @@ a.selo-eixo:hover { color: var(--mata); text-decoration: none; background: var(-
   .tabela td.forte { white-space: normal; }
 }
 
+@media (max-width: 400px) {
+  .marca-nome { display: none; }
+  .marca-sigla { border-right: 0; padding-right: 0; }
+  .menu-botao { width: 60px; padding: 0 18px; }
+}
+
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 
 @media print {
